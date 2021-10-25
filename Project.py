@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-
 from email.parser import Parser
 import re
 import time
@@ -17,9 +13,6 @@ def date_to_dt(date):
     return to_dt(time.strptime(date[:-6], '%a, %d %b %Y %H:%M:%S %z'))
 
 
-# /!\ All functions below must return an RDD object /!\
-
-# T1: replace pass with your code
 def extract_email_network(rdd):
     import re
     def date_to_dt(date):
@@ -49,8 +42,7 @@ def extract_email_network(rdd):
     rdd = rdd.map(lambda s: [i for i in s if i[0]!=i[1]]) #check if sender and recipient is not same
     rdd = rdd.flatMap(lambda s: s).distinct() #check triples are distinct
     return rdd
-
-# T2: replace pass with your code            
+           
 def get_monthly_contacts(rdd):
     from operator import add 
     rdd = rdd.map(lambda s: (str(s[0])+"-"+str(s[2].month)+'/'+str(s[2].year),s[1]))
@@ -59,7 +51,6 @@ def get_monthly_contacts(rdd):
     rdd = rdd.map(lambda s: (s[0][0],s[0][1],s[1]))
     return rdd
 
-# T3: replace pass with your code
 def convert_to_weighted_network(rdd, drange=None):
     from operator import add
     dtd = lambda x: datetime(drange[x].year, drange[x].month, drange[x].day)
@@ -75,7 +66,6 @@ def convert_to_weighted_network(rdd, drange=None):
     rdd = rdd.map(lambda s: (s[0][0],s[0][1],s[1]))
     return rdd
 
-# T4.1: replace pass with your code
 def get_out_degrees(rdd):
     from operator import add
     rdd1 = rdd.map(lambda s: (s[0],s[2])).collect()
@@ -88,8 +78,7 @@ def get_out_degrees(rdd):
     rdd = sc.parallelize(rdd)
     rdd = rdd.map(lambda s: (s[1],s[0]))
     return rdd
-
-# T4.2: replace pass with your code         
+       
 def get_in_degrees(rdd):
     from operator import add
     rdd1 = rdd.map(lambda s: (s[1],s[2])).collect()
